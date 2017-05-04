@@ -1,0 +1,12 @@
+http://localhost:8081/registerUser
+
+{"user":{"UID":"","Name":"Anu","Password":"wewq","MDN":"1234567809","EmailID":"anu@gmail.com","OSType":"IOS"}}
+
+
+http://localhost:8081/syncContacts
+{"UID":377,"contacts":[{"Name":"a","MDN":"34354"},{"Name":"a","MDN":"34354"}]}
+
+
+http://localhost:8081/getuser?mdn=34354
+
+node ./routes/dbSync

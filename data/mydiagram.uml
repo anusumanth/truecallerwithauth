@@ -1,0 +1,89 @@
+@startuml
+
+/'
+This is an example Sequence diagram
+Showing a fictional web feature flow
+It is easy to see roles & responsibilities for each component
+and easy to change them too...
+'/
+
+title "True Caller - Sequence Diagram"
+
+'This is a single line comment
+
+/'
+This is a multi-line comment
+One another line
+'/
+
+actor user
+'boundary Proxy
+participant TrueCaller as app
+participant API
+participant DB
+
+opt register
+user -> app: register app
+activate user
+activate app
+app -> API: POST /registerUser
+activate API
+alt present?
+  API -> DB: Existing user
+  activate DB
+  DB -> API: return uid
+  deactivate DB
+
+else new
+	API -> DB: update DB
+    activate API
+    activate DB
+    DB -> API: return uid
+    deactivate DB
+    deactivate API	
+ end
+API -> app : return uid
+deactivate API
+app -> user : receive uid
+deactivate app
+deactivate user
+end
+opt syncContacts
+user -> app:sync Contacts
+activate user
+activate app
+app-> API: POST /syncContacts
+activate API
+API -> DB: insert Contacts
+activate DB
+DB -> API:success Message
+deactivate DB
+API -> app: success Message
+deactivate API
+app -> user: success Message
+deactivate app
+deactivate user 
+end
+opt getContact
+user -> app: getContactName of MDN
+activate user
+activate app
+app->API : GET /getContact?MDN='XX'
+activate API
+API->DB : search contact
+activate DB
+alt present?
+DB->DB : MDN present
+DB->API : contact Name
+else not present
+DB->API : Contact not present
+end
+deactivate DB
+API->app:response
+deactivate API
+app->user: response
+deactivate app
+deactivate user
+end
+
+@enduml
